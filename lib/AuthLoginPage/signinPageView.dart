@@ -52,18 +52,34 @@ class _signinPageViewState extends State<signinPageView> {
                       padding: EdgeInsets.symmetric(vertical: 5),
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey, width: 2),
-                          //color: colorPrimaryShade,
+                          color: Colors.redAccent,
                           borderRadius:
                           BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Center(
-                            child: Text(
-                              "e-mail",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                              ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Image.asset(
+                                  "assets/Mail-512.png",
+                                  width: 30,
+                                  height: 30,
+                                ),
+                                SizedBox(
+                                  width: 50,
+                                ),
+                                Text(
+                                  "Sign in with email",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
                             )),
                       ),
                     ),
@@ -79,18 +95,33 @@ class _signinPageViewState extends State<signinPageView> {
                       padding: EdgeInsets.symmetric(vertical: 5),
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey, width: 2),
-                          //color: colorPrimaryShade,
+                          color: Colors.white,
                           borderRadius:
                           BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Center(
-                            child: Text(
-                              "google account",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                              ),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Image.asset(
+                                  "assets/google.png",
+                                  width: 30,
+                                  height: 30,
+                                ),
+                                SizedBox(
+                                  width: 50,
+                                ),
+                                Text(
+                                  "Sign in with Google",
+                                  style: TextStyle(
+                                    color: Colors.black87,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
                             )),
                       ),
                     ),
@@ -107,18 +138,33 @@ class _signinPageViewState extends State<signinPageView> {
                       decoration: BoxDecoration(
 
                           border: Border.all(color: Colors.grey, width: 2),
-                          //color: colorPrimaryShade,
+                          color: Colors.blueAccent,
                           borderRadius:
                           BorderRadius.all(Radius.circular(10))),
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Center(
-                            child: Text(
-                              "facebook",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                              ),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Image.asset(
+                                  "assets/images.png",
+                                  width: 30,
+                                  height: 30,
+                                ),
+                                SizedBox(
+                                  width: 50,
+                                ),
+                                Text(
+                                  "Sign in with Facebook",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
                             )),
                       ),
                     ),
@@ -126,7 +172,11 @@ class _signinPageViewState extends State<signinPageView> {
                   SizedBox(
                     height: 50,
                   ),
-                  RaisedButton(onPressed: (){},child: Text("Sign up"),),
+                  RaisedButton(onPressed: (){
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            signinEmailPageView()));
+                  },child: Text("Sign up"),),
 
                 ],
               ),

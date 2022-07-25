@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:testpro/AuthLoginPage/signinPageView.dart';
 
+import '../Services/AuthServices.dart';
 import 'mainPageView.dart';
 
 class signinEmailPageView extends StatefulWidget {
@@ -12,13 +14,21 @@ class signinEmailPageView extends StatefulWidget {
 }
 
 class _signinEmailPageViewState extends State<signinEmailPageView> {
-  var selectedTab = 1;
+  var selectedTab = 2;
   var selectedText = "First Tab";
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        leading:  GestureDetector(
+          child: Icon( Icons.arrow_back_ios, color: Colors.black,  ),
+          onTap: () {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    signinPageView()));
+          } ,
+        ) ,
         title: Text("Test Pro",style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
@@ -95,18 +105,10 @@ class _signinEmailPageViewState extends State<signinEmailPageView> {
               ),
               Container(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.6,
+                height: MediaQuery.of(context).size.height * 0.7,
                 child: selectedTab == 1 ? signUp() : signIn(),
               ),
-              RaisedButton(
-                padding: const EdgeInsets.only(left: 150.0,right: 150.0),
-                  shape: Border(),
-                  child: Text("Continue"),
-                  onPressed: (){
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        mainPageView()));
-              }),
+
             ],
           ),
         ),
@@ -124,8 +126,10 @@ class signUp extends StatefulWidget {
 
 class _signUpState extends State<signUp> {
   bool obscureText = true;
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController emailController1 = TextEditingController();
+  TextEditingController passwordController1 = TextEditingController();
+  TextEditingController passwordAgainController1 = TextEditingController();
+  AuthService _authService = AuthService();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -142,6 +146,7 @@ class _signUpState extends State<signUp> {
                   fontWeight: FontWeight.w500),
             ),
             TextFormField(
+              controller: emailController1,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -165,6 +170,7 @@ class _signUpState extends State<signUp> {
                   fontWeight: FontWeight.w500),
             ),
             TextFormField(
+              controller: passwordController1,
               obscureText: obscureText,
               decoration: InputDecoration(
                 suffixIcon: GestureDetector(
@@ -197,6 +203,7 @@ class _signUpState extends State<signUp> {
                   fontWeight: FontWeight.w500),
             ),
             TextFormField(
+              controller: passwordAgainController1,
               obscureText: obscureText,
               decoration: InputDecoration(
                 suffixIcon: GestureDetector(
@@ -218,6 +225,42 @@ class _signUpState extends State<signUp> {
                 hintText: "Re-write Password",
               ),
             ),
+            SizedBox(
+              height: 160,
+            ),
+            InkWell(
+              onTap: () {
+                _authService
+                    .createPerson(
+                    emailController1.text,
+                    passwordController1.text)
+                    .then((value) {
+                  return Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => mainPageView()));
+                });
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 5),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 2),
+                    color: Colors.grey,
+                    borderRadius:
+                    BorderRadius.all(Radius.circular(10))),
+                child: const Padding(
+                  padding: EdgeInsets.all(5.0),
+                  child: Center(
+                      child: Text(
+                        "Continue",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
+                      )),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -236,6 +279,7 @@ class signIn extends StatefulWidget {
 class _signInState extends State<signIn> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  AuthService _authService = AuthService();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -250,6 +294,7 @@ class _signInState extends State<signIn> {
                 color: Colors.black, fontSize: 15, fontWeight: FontWeight.w500),
           ),
           TextFormField(
+            controller: emailController,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -271,6 +316,7 @@ class _signInState extends State<signIn> {
                 color: Colors.black, fontSize: 15, fontWeight: FontWeight.w500),
           ),
           TextFormField(
+            controller: passwordController,
             obscureText: true,
             decoration: InputDecoration(
               border: OutlineInputBorder(
@@ -283,9 +329,48 @@ class _signInState extends State<signIn> {
               hintText: "Password",
             ),
           ),
+          SizedBox(
+            height: 20,
+          ),
           Center(child: FlatButton(onPressed: (){},
 
               child: Text("Forget Password?"))),
+          SizedBox(
+            height: 180,
+          ),
+          InkWell(
+            onTap: () {
+              _authService
+                  .signIn(emailController.text,
+                  passwordController.text)
+                  .then((value) {
+                return Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => mainPageView()));
+              });
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 5),
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white, width: 2),
+                  color: Colors.grey,
+                  borderRadius:
+                  BorderRadius.all(Radius.circular(10))),
+              child: const Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Center(
+                    child: Text(
+                      "Continue",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                      ),
+                    )),
+              ),
+            ),
+          ),
+
         ],
       ),
     );
